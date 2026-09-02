@@ -14,11 +14,14 @@
       <h1 id="titulo">Mi Canasta</h1>
       <p class="intro">Escribí lo que querés comprar y te mostramos dónde te conviene.</p>
 
-      <label for="lista">¿Qué querés comprar?</label>
+      <label for="lista">¿Qué vas a comprar hoy?</label>
       <textarea id="lista" rows="6" placeholder="Ejemplo:\nLeche La Serenísima\nAzúcar Ledesma\nCafé Nescafé\nYerba Playadito\nArroz Gallo"></textarea>
 
-      <button id="comparar" class="primary" type="button">🛒 COMPARAR MI COMPRA</button>
-      <button id="ahorro" class="secondary" type="button">💰 Buscar la opción más barata</button>
+      <button id="comparar" class="primary" type="button">🛒 COMPARAR MI CANASTA</button>
+      <div class="purchase-actions" aria-label="Opciones de compra">
+        <a id="delivery" class="action-button delivery" href="#resultados">🛵 COMPRAR CON DELIVERY / ONLINE</a>
+        <a id="supermercado" class="action-button supermarket" href="#resultados">🏪 IR AL SUPERMERCADO</a>
+      </div>
     </section>
 
     <section id="resultados" class="results" aria-live="polite">
