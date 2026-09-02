@@ -23,19 +23,20 @@ test('marca el supermercado con menor total como mejor precio', () => {
   assert.equal(resultado[1].mejorPrecio, false);
 });
 
-test('usa una oferta de Cucher vinculada al producto cuando no existe precio en prices', () => {
-  const filas = combinarPreciosYOfertas(
-    [],
-    [{ supermarket_id: 6, product_id: 1, price: 1985, valid_until: '2026-09-04' }]
-  );
-
-  assert.deepEqual(filas, [{ supermarket_id: 6, product_id: 1, price: 1985, supermarkets: { active: true } }]);
-});
-
-test('no duplica una oferta de Cucher si ya existe un precio para el mismo producto', () => {
+test('usa una oferta vigente de Cucher como precio para el producto vinculado', () => {
   const filas = combinarPreciosYOfertas(
     [{ supermarket_id: 6, product_id: 1, price: 2100, supermarkets: { active: true } }],
     [{ supermarket_id: 6, product_id: 1, price: 1985, valid_until: '2026-09-04' }]
+  );
+
+  assert.equal(filas.length, 1);
+  assert.equal(filas[0].price, 1985);
+});
+
+test('ignora una oferta vencida de Cucher', () => {
+  const filas = combinarPreciosYOfertas(
+    [{ supermarket_id: 6, product_id: 1, price: 2100, supermarkets: { active: true } }],
+    [{ supermarket_id: 6, product_id: 1, price: 1985, valid_until: '2020-09-04' }]
   );
 
   assert.equal(filas.length, 1);
