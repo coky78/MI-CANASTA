@@ -1,0 +1,47 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  color: #171717;
+  background: #f4f5f7;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+button, textarea { font: inherit; }
+
+.app-shell {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.hero, .results {
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 8px 30px rgba(0,0,0,.08);
+}
+
+.results { margin-top: 18px; }
+.eyebrow { margin: 0 0 6px; font-size: .82rem; font-weight: 800; letter-spacing: .12em; }
+h1 { margin: 0; font-size: clamp(2.4rem, 8vw, 4rem); }
+h2 { margin: 0; font-size: clamp(1.7rem, 5vw, 2.4rem); }
+.intro { font-size: 1.2rem; line-height: 1.5; margin: 12px 0 24px; }
+label { display: block; font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
+textarea { width: 100%; border: 2px solid #c9ccd2; border-radius: 16px; padding: 16px; resize: vertical; min-height: 150px; line-height: 1.55; }
+textarea:focus { outline: 3px solid #b9d7ff; border-color: #2367d1; }
+button { width: 100%; border: 0; border-radius: 16px; min-height: 58px; margin-top: 12px; cursor: pointer; font-weight: 900; }
+.primary { background: #111; color: white; font-size: 1.08rem; }
+.secondary { background: #eef1f5; color: #111; }
+.cards { display: grid; gap: 12px; margin-top: 18px; }
+.card { border: 2px solid #e0e2e6; border-radius: 18px; padding: 18px; }
+.card.best { border-color: #17863b; }
+.badge { display: inline-block; border-radius: 999px; padding: 6px 10px; font-size: .78rem; font-weight: 900; background: #17863b; color: white; }
+.store { font-size: 1.35rem; font-weight: 900; margin-top: 10px; }
+.total { font-size: 2rem; font-weight: 900; margin: 6px 0; }
+.save { font-weight: 700; }
+.buy { background: #111; color: white; }
+
+@media (max-width: 520px) {
+  .app-shell { padding: 10px 10px 30px; }
+  .hero, .results { padding: 20px; border-radius: 18px; }
+}
