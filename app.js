@@ -28,19 +28,33 @@ function renderResultados(items) {
   }
 
   const completos = items.filter(item => item.completo);
-  const base = completos.length ? completos : items;
-  const menor = base[0].total;
+  const base = completos.length ? completos : items.filter(item => !item.sin_precios);
+  const menor = base.length ? base[0].total : null;
 
-  resultados.innerHTML = items.map(item => `
-    <article class="card ${item.completo && item.total === menor ? 'best' : ''}">
-      ${item.completo && item.total === menor ? '<span class="badge">MEJOR PRECIO</span>' : ''}
-      <div class="store">${item.nombre}</div>
-      <div class="total">${dinero.format(item.total)}</div>
-      <div class="save">${item.completo ? (item.total === menor ? 'Es la canasta completa más barata.' : `${dinero.format(item.total - menor)} más que la opción más barata.`) : `Faltan ${item.productos} de ${window.__MI_CANASTA_TOTAL__} productos con precio cargado.`}</div>
-      ${item.delivery_url ? `<a class="buy" href="${item.delivery_url}" target="_blank" rel="noopener">🛵 COMPRAR AQUÍ</a>` : ''}
-      ${item.website ? `<a class="secondary" href="${item.website}" target="_blank" rel="noopener">🏪 VER UBICACIÓN / WEB</a>` : ''}
-    </article>
-  `).join('');
+  resultados.innerHTML = items.map(item => {
+    if (item.sin_precios) {
+      return `
+        <article class="card pending-store">
+          <span class="badge">EN INCORPORACIÓN</span>
+          <div class="store">${item.nombre}</div>
+          <div class="save">Este supermercado ya está incorporado a Mi Canasta, pero todavía no tenemos precios cargados para compararlo.</div>
+          ${item.delivery_url ? `<a class="buy" href="${item.delivery_url}" target="_blank" rel="noopener">🛵 COMPRAR AQUÍ</a>` : ''}
+          ${item.website ? `<a class="secondary" href="${item.website}" target="_blank" rel="noopener">🏪 VER UBICACIÓN / WEB</a>` : ''}
+        </article>
+      `;
+    }
+
+    return `
+      <article class="card ${item.completo && item.total === menor ? 'best' : ''}">
+        ${item.completo && item.total === menor ? '<span class="badge">MEJOR PRECIO</span>' : ''}
+        <div class="store">${item.nombre}</div>
+        <div class="total">${dinero.format(item.total)}</div>
+        <div class="save">${item.completo ? (item.total === menor ? 'Es la canasta completa más barata.' : `${dinero.format(item.total - menor)} más que la opción más barata.`) : `Faltan ${item.productos} de ${window.__MI_CANASTA_TOTAL__} productos con precio cargado.`}</div>
+        ${item.delivery_url ? `<a class="buy" href="${item.delivery_url}" target="_blank" rel="noopener">🛵 COMPRAR AQUÍ</a>` : ''}
+        ${item.website ? `<a class="secondary" href="${item.website}" target="_blank" rel="noopener">🏪 VER UBICACIÓN / WEB</a>` : ''}
+      </article>
+    `;
+  }).join('');
 }
 
 function desplazarAResultados() {
