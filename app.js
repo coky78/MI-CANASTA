@@ -1,7 +1,9 @@
+import { parseLista } from './parse-list.js';
+
 const lista = document.querySelector('#lista');
 const resultados = document.querySelector('#lista-resultados');
+const resultadosSection = document.querySelector('#resultados');
 const comparar = document.querySelector('#comparar');
-const ahorrar = document.querySelector('#ahorrar');
 const dinero = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
 
 function normalizar(texto) {
@@ -35,14 +37,18 @@ function renderResultados(items) {
       <div class="store">${item.nombre}</div>
       <div class="total">${dinero.format(item.total)}</div>
       <div class="save">${item.completo ? (item.total === menor ? 'Es la canasta completa más barata.' : `${dinero.format(item.total - menor)} más que la opción más barata.`) : `Faltan ${item.productos} de ${window.__MI_CANASTA_TOTAL__} productos con precio cargado.`}</div>
-      ${item.delivery_url ? `<a class="buy" href="${item.delivery_url}" target="_blank" rel="noopener">COMPRAR AQUÍ</a>` : ''}
-      ${item.website ? `<a class="secondary" href="${item.website}" target="_blank" rel="noopener">📍 VER UBICACIÓN / WEB</a>` : ''}
+      ${item.delivery_url ? `<a class="buy" href="${item.delivery_url}" target="_blank" rel="noopener">🛵 COMPRAR AQUÍ</a>` : ''}
+      ${item.website ? `<a class="secondary" href="${item.website}" target="_blank" rel="noopener">🏪 VER UBICACIÓN / WEB</a>` : ''}
     </article>
   `).join('');
 }
 
+function desplazarAResultados() {
+  resultadosSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 async function compararCanasta() {
-  const lineas = lista.value.split(/\n|,/).map(s => s.trim()).filter(Boolean);
+  const lineas = parseLista(lista.value);
   if (!lineas.length) {
     lista.focus();
     lista.setAttribute('aria-invalid', 'true');
@@ -52,6 +58,7 @@ async function compararCanasta() {
   lista.removeAttribute('aria-invalid');
   comparar.disabled = true;
   resultados.innerHTML = '<p class="loading">Buscando productos y comparando precios…</p>';
+  desplazarAResultados();
 
   try {
     const productos = [];
@@ -83,6 +90,5 @@ async function compararCanasta() {
 }
 
 comparar.addEventListener('click', compararCanasta);
-ahorrar?.addEventListener('click', () => {
-  lista.focus();
-});
+document.querySelector('#delivery')?.addEventListener('click', desplazarAResultados);
+document.querySelector('#supermercado')?.addEventListener('click', desplazarAResultados);
