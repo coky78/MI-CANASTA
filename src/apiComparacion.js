@@ -1,3 +1,23 @@
+export function combinarPreciosYOfertas(precios, ofertas) {
+  const existentes = new Set(
+    precios.map((fila) => `${fila.supermarket_id}:${fila.product_id}`)
+  );
+
+  const hoy = new Date().toISOString().slice(0, 10);
+  const ofertasComoPrecios = ofertas
+    .filter((oferta) => oferta.supermarket_id != null && oferta.product_id != null)
+    .filter((oferta) => !oferta.valid_until || oferta.valid_until >= hoy)
+    .filter((oferta) => !existentes.has(`${oferta.supermarket_id}:${oferta.product_id}`))
+    .map((oferta) => ({
+      supermarket_id: oferta.supermarket_id,
+      product_id: oferta.product_id,
+      price: Number(oferta.price),
+      supermarkets: { active: true }
+    }));
+
+  return [...precios, ...ofertasComoPrecios];
+}
+
 export function agruparPrecios(filas, productIds) {
   const ids = new Set(productIds.map(Number));
   const grouped = new Map();
