@@ -5,8 +5,10 @@
 }
 
 * { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body { margin: 0; }
 button, textarea { font: inherit; }
+a { text-decoration: none; }
 
 .app-shell {
   width: min(760px, 100%);
@@ -21,7 +23,7 @@ button, textarea { font: inherit; }
   box-shadow: 0 8px 30px rgba(0,0,0,.08);
 }
 
-.results { margin-top: 18px; }
+.results { margin-top: 18px; scroll-margin-top: 14px; }
 .eyebrow { margin: 0 0 6px; font-size: .82rem; font-weight: 800; letter-spacing: .12em; }
 h1 { margin: 0; font-size: clamp(2.4rem, 8vw, 4rem); }
 h2 { margin: 0; font-size: clamp(1.7rem, 5vw, 2.4rem); }
@@ -31,6 +33,11 @@ textarea { width: 100%; border: 2px solid #c9ccd2; border-radius: 16px; padding:
 textarea:focus { outline: 3px solid #b9d7ff; border-color: #2367d1; }
 button { width: 100%; border: 0; border-radius: 16px; min-height: 58px; margin-top: 12px; cursor: pointer; font-weight: 900; }
 .primary { background: #111; color: white; font-size: 1.08rem; }
+.purchase-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.action-button { min-height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; padding: 10px 12px; text-align: center; font-size: .88rem; font-weight: 900; transition: transform .18s ease, box-shadow .18s ease; }
+.action-button:active { transform: scale(.98); }
+.delivery { background: #17863b; color: white; }
+.supermarket { background: #eef1f5; color: #111; border: 1px solid #d9dde3; }
 .secondary { background: #eef1f5; color: #111; }
 .cards { display: grid; gap: 12px; margin-top: 18px; }
 .card { border: 2px solid #e0e2e6; border-radius: 18px; padding: 18px; }
@@ -39,9 +46,12 @@ button { width: 100%; border: 0; border-radius: 16px; min-height: 58px; margin-t
 .store { font-size: 1.35rem; font-weight: 900; margin-top: 10px; }
 .total { font-size: 2rem; font-weight: 900; margin: 6px 0; }
 .save { font-weight: 700; }
-.buy { background: #111; color: white; }
+.buy { display: flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 12px; border-radius: 12px; background: #111; color: white; font-weight: 900; }
+.card .secondary { display: flex; align-items: center; justify-content: center; min-height: 48px; margin-top: 8px; border-radius: 12px; font-weight: 900; }
 
 @media (max-width: 520px) {
   .app-shell { padding: 10px 10px 30px; }
   .hero, .results { padding: 20px; border-radius: 18px; }
+  .purchase-actions { gap: 8px; }
+  .action-button { font-size: .78rem; }
 }
