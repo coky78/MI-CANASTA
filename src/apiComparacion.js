@@ -1,21 +1,25 @@
 export function combinarPreciosYOfertas(precios, ofertas) {
-  const existentes = new Set(
-    precios.map((fila) => `${fila.supermarket_id}:${fila.product_id}`)
+  const porClave = new Map(
+    precios.map((fila) => [`${fila.supermarket_id}:${fila.product_id}`, fila])
   );
 
   const hoy = new Date().toISOString().slice(0, 10);
-  const ofertasComoPrecios = ofertas
-    .filter((oferta) => oferta.supermarket_id != null && oferta.product_id != null)
-    .filter((oferta) => !oferta.valid_until || oferta.valid_until >= hoy)
-    .filter((oferta) => !existentes.has(`${oferta.supermarket_id}:${oferta.product_id}`))
-    .map((oferta) => ({
+  for (const oferta of ofertas) {
+    if (oferta.supermarket_id == null || oferta.product_id == null) continue;
+    if (oferta.valid_until && oferta.valid_until < hoy) continue;
+
+    const key = `${oferta.supermarket_id}:${oferta.product_id}`;
+    const actual = porClave.get(key);
+    porClave.set(key, {
+      ...(actual || {}),
       supermarket_id: oferta.supermarket_id,
       product_id: oferta.product_id,
       price: Number(oferta.price),
-      supermarkets: { active: true }
-    }));
+      supermarkets: actual?.supermarkets || { active: true }
+    });
+  }
 
-  return [...precios, ...ofertasComoPrecios];
+  return [...porClave.values()];
 }
 
 export function agruparPrecios(filas, productIds) {
